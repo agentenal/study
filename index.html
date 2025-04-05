@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思维导图筛选器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>思维导图筛选器</h1>
+        <p>请选择筛选条件：</p>
+
+        <div class="selectors">
+            <div class="selector-item">
+                <label for="gradeSelect">年级:</label>
+                <select id="gradeSelect">
+                    <option value="">--选择年级--</option>
+                    </select>
+            </div>
+
+            <div class="selector-item">
+                <label for="semesterSelect">学期:</label>
+                <select id="semesterSelect">
+                    <option value="">--选择学期--</option>
+                    </select>
+            </div>
+
+            <div class="selector-item">
+                <label for="publisherSelect">出版社:</label>
+                <select id="publisherSelect">
+                    <option value="">--选择出版社--</option>
+                    </select>
+            </div>
+
+            <div class="selector-item">
+                <label for="subjectSelect">科目:</label>
+                <select id="subjectSelect">
+                    <option value="">--选择科目--</option>
+                    </select>
+            </div>
+        </div>
+
+        <div id="resultArea">
+            <p>请完成所有选择以查找对应的思维导图。</p>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
