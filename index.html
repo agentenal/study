@@ -4,49 +4,411 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>思维导图筛选器</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(to bottom, #fff, #f0f0f0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 95%;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .selectors {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .selector-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .selector-item label {
+            font-weight: 500;
+            color: #444;
+            display: none; /* 隐藏标签 */
+        }
+
+        .selector-item select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 180px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+
+        .selector-item select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+
+        .results-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .result-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #eee;
+        }
+
+        .result-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .result-card-header h2 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .result-card-body {
+            padding: 10px 15px;
+        }
+
+        .result-card-body p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .reset-button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+            margin: 10px auto 0 auto;
+            display: block;
+            width: 150px;
+            text-align: center;
+        }
+
+        .reset-button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .selectors {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .selector-item {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .selector-item select {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .result-card {
+                width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        /* 科目颜色 */
+        .yuwen {
+            background-image: linear-gradient(to right, #f0f4c3, #d4edda);
+            color: #1a5235;
+        }
+
+        .shuxue {
+            background-image: linear-gradient(to right, #e0f7fa, #b2ebf2);
+            color: #084b61;
+        }
+
+        .yingyu {
+            background-image: linear-gradient(to right, #fce4ec, #f8bbd0);
+            color: #5e35b1;
+        }
+
+        .wuli {
+            background-image: linear-gradient(to right, #fff8e1, #ffecb3);
+            color: #e65100;
+        }
+
+        .huaxue {
+            background-image: linear-gradient(to right, #f3e5f5, #e1bee7);
+            color: #512da8;
+        }
+
+        .shengwu {
+            background-image: linear-gradient(to right, #e8f5e9, #c8e6c9);
+            color: #2e7d32;
+        }
+
+        .lishi {
+            background-image: linear-gradient(to right, #fff3e0, #ffe082);
+            color: #d84315;
+        }
+
+        .dili {
+            background-image: linear-gradient(to right, #e0f2f1, #b2dfdb);
+            color: #00695c;
+        }
+
+        .zhengzhi {
+            background-image: linear-gradient(to right, #ede7f6, #d1c4e9);
+            color: #311b92;
+        }
+
+        .kexue {
+            background-image: linear-gradient(to right, #f0f4c3, #dcedc8);
+            color: #558b2f;
+        }
+
+        .xinxi {
+            background-image: linear-gradient(to right, #f8f0fb, #e9c4ef);
+            color: #8e24aa;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>思维导图筛选器</h1>
-        <p>请选择筛选条件：</p>
-
         <div class="selectors">
             <div class="selector-item">
-                <label for="gradeSelect">年级:</label>
                 <select id="gradeSelect">
-                    <option value="">--选择年级--</option>
-                    </select>
+                    <option value="">年级</option>
+                </select>
             </div>
-
             <div class="selector-item">
-                <label for="semesterSelect">学期:</label>
                 <select id="semesterSelect">
-                    <option value="">--选择学期--</option>
-                    </select>
+                    <option value="">学期</option>
+                    <option value="上册">上册</option>
+                    <option value="下册">下册</option>
+                </select>
             </div>
-
             <div class="selector-item">
-                <label for="publisherSelect">出版社:</label>
                 <select id="publisherSelect">
-                    <option value="">--选择出版社--</option>
-                    </select>
+                    <option value="">出版社</option>
+                </select>
             </div>
-
             <div class="selector-item">
-                <label for="subjectSelect">科目:</label>
                 <select id="subjectSelect">
-                    <option value="">--选择科目--</option>
-                    </select>
+                    <option value="">科目</option>
+                </select>
             </div>
         </div>
-
-        <div id="resultArea">
-            <p>请完成所有选择以查找对应的思维导图。</p>
+        <button class="reset-button" id="resetButton">重置</button>
+        <div class="results-container" id="resultsContainer">
+            <p>请选择筛选条件，以查看相关思维导图。</p>
         </div>
-
     </div>
+    <script>
+        const data = [
+            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3上_人教版_语文.html' },
+            { grade: '三年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3上_湘少版_英语.html' },
+            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3上_人教版_数学.html' },
+            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3下_人教版_语文.html' },
+            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3下_人教版_数学.html' },
+            { grade: '三年级', semester: '下册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3下_湘少版_英语.html' },
+            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/4上_人教版_语文.html' },
+            { grade: '四年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/4上_湘少版_英语.html' },
+            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/4上_人教版_数学.html' },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/7下_人教版_语文.html' },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/7下_人教版_数学.html' },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '英语', filePath: 'maps/7下_人教版_英语.html' },
+            { grade: '七年级', semester: '下册', publisher: '湖南教育出版社', subject: '地理', filePath: 'maps/7下_湘教版_地理.html' },
+        ];
 
-    <script src="script.js"></script>
+        const gradeSelect = document.getElementById('gradeSelect');
+        const semesterSelect = document.getElementById('semesterSelect');
+        const publisherSelect = document.getElementById('publisherSelect');
+        const subjectSelect = document.getElementById('subjectSelect');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resetButton = document.getElementById('resetButton');
+
+        function populateOptions() {
+            const uniqueGrades = [...new Set(data.map(item => item.grade))].sort();
+            const uniqueSemesters = [...new Set(data.map(item => item.semester))].sort();
+            const uniquePublishers = [...new Set(data.map(item => item.publisher))].sort();
+            const uniqueSubjects = [...new Set(data.map(item => item.subject))].sort();
+
+            addOptionsToSelect(gradeSelect, uniqueGrades, '年级');
+            addOptionsToSelect(semesterSelect, uniqueSemesters, '学期');
+            addOptionsToSelect(publisherSelect, uniquePublishers, '出版社');
+            addOptionsToSelect(subjectSelect, uniqueSubjects, '科目');
+        }
+
+        function addOptionsToSelect(selectElement, options, label) {
+            selectElement.innerHTML = `<option value="">${label}</option>`;
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                selectElement.appendChild(optionElement);
+            });
+        }
+
+        function filterAndDisplayResults() {
+            const selectedGrade = gradeSelect.value;
+            const selectedSemester = semesterSelect.value;
+            const selectedPublisher = publisherSelect.value;
+            const selectedSubject = subjectSelect.value;
+
+            let filteredData = data;
+
+            if (selectedGrade) {
+                filteredData = filteredData.filter(item => item.grade === selectedGrade);
+            }
+            if (selectedSemester) {
+                filteredData = filteredData.filter(item => item.semester === selectedSemester);
+            }
+            if (selectedPublisher) {
+                filteredData = filteredData.filter(item => item.publisher === selectedPublisher);
+            }
+            if (selectedSubject) {
+                filteredData = filteredData.filter(item => item.subject === selectedSubject);
+            }
+
+            displayResults(filteredData);
+        }
+
+        function displayResults(results) {
+            resultsContainer.innerHTML = '';
+            if (results.length > 0) {
+                results.forEach(item => {
+                    const resultCard = document.createElement('div');
+                    resultCard.className = `result-card ${getSubjectColorClass(item.subject)}`;
+                    resultCard.setAttribute('data-filepath', item.filePath);
+
+                    const cardHeader = document.createElement('div');
+                    cardHeader.className = 'result-card-header';
+                    const title = document.createElement('h2');
+                    title.textContent = `${item.subject} - ${item.grade} ${item.semester}`;
+                    cardHeader.appendChild(title);
+
+                    const cardBody = document.createElement('div');
+                    cardBody.className = 'result-card-body';
+                    const publisherInfo = document.createElement('p');
+                    publisherInfo.textContent = `${item.publisher}`;
+                    cardBody.appendChild(publisherInfo);
+
+                    resultCard.appendChild(cardHeader);
+                    resultCard.appendChild(cardBody);
+                    resultsContainer.appendChild(resultCard);
+
+                    resultCard.addEventListener('click', () => {
+                        openMindMap(item.filePath);
+                    });
+                });
+            } else {
+                resultsContainer.innerHTML = '<p>未找到匹配的思维导图，请检查您的选择。</p>';
+            }
+        }
+
+        function getSubjectColorClass(subject) {
+            const colorClasses = {
+                '语文': 'yuwen',
+                '数学': 'shuxue',
+                '英语': 'yingyu',
+                '物理': 'wuli',
+                '化学': 'huaxue',
+                '生物': 'shengwu',
+                '历史': 'lishi',
+                '地理': 'dili',
+                '政治': 'zhengzhi',
+                '科学': 'kexue',
+                '信息技术': 'xinxi'
+            };
+            return colorClasses[subject] || '';
+        }
+
+        function openMindMap(filePath) {
+            const absoluteFilePath = filePath;
+            window.open(absoluteFilePath, '_blank');
+        }
+
+        function resetSelections() {
+            gradeSelect.value = '';
+            semesterSelect.value = '';
+            publisherSelect.value = '';
+            subjectSelect.value = '';
+            resultsContainer.innerHTML = '<p>请选择筛选条件，以查看相关思维导图。</p>';
+        }
+
+        gradeSelect.addEventListener('change', filterAndDisplayResults);
+        semesterSelect.addEventListener('change', filterAndDisplayResults);
+        publisherSelect.addEventListener('change', filterAndDisplayResults);
+        subjectSelect.addEventListener('change', filterAndDisplayResults);
+        resetButton.addEventListener('click', resetSelections);
+
+        window.onload = function () {
+            populateOptions();
+        };
+    </script>
 </body>
 </html>
