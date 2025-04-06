@@ -10,12 +10,17 @@
             font-family: 'Noto Sans SC', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: linear-gradient(to bottom, #fff, #f0f0f0);
+            /* 修改背景属性，添加背景图片 */
+            background-image: url('https://wallpaperm.cmcm.com/0ec1f95dffdd628dcc4f09d00521589e.jpg'); /* 替换为你的图片URL */
+            background-size: cover; /* 覆盖整个屏幕 */
+            background-position: center; /* 图片居中显示 */
+            background-repeat: no-repeat; /* 防止图片重复 */
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding-top: 20px;
+            background-attachment: fixed; /* 添加此行，使背景固定 */
         }
 
         .container {
@@ -84,51 +89,70 @@
             margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
+            transition: height 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-container > * {
+            transition: opacity 0.2s ease, transform 0.2s ease; /* 更快的过渡 */
         }
 
         .result-card {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 250px;
-            min-height: 120px;
+            width: 240px; /* 增加宽度 */
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
             cursor: pointer;
             border: 1px solid #eee;
+            position: relative;
+            overflow: hidden;
         }
 
         .result-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transform: scale(1.10);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1;
         }
 
         .result-card-header {
-            padding: 15px;
+            padding: 8px;
             border-bottom: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .result-card-header h2 {
             margin: 0;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: #333;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            text-align: center;
+        }
+
+        .result-card-header p{
+            font-size: 12px;
         }
 
         .result-card-body {
-            padding: 10px 15px;
+            padding: 6px 8px;
         }
 
         .result-card-body p {
             margin: 0;
-            font-size: 13px;
+            font-size: 12px;
             color: #666;
         }
 
@@ -233,6 +257,37 @@
             background-image: linear-gradient(to right, #f8f0fb, #e9c4ef);
             color: #8e24aa;
         }
+
+        .semester-label {
+            position: absolute;
+            font-size: 10px;
+            font-weight: bold;
+            color: #555;
+            padding: 2px;
+            top: 3px;
+            right: 3px;
+        }
+
+        .semester-top-right {
+            top: 5px;
+            right: 5px;
+        }
+
+        .semester-bottom-right {
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .grade-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+
     </style>
 </head>
 <body>
@@ -269,19 +324,19 @@
     </div>
     <script>
         const data = [
-            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3上_人教版_语文.html' },
-            { grade: '三年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3上_湘少版_英语.html' },
-            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3上_人教版_数学.html' },
-            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3下_人教版_语文.html' },
-            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3下_人教版_数学.html' },
-            { grade: '三年级', semester: '下册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3下_湘少版_英语.html' },
-            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/4上_人教版_语文.html' },
-            { grade: '四年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/4上_湘少版_英语.html' },
-            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/4上_人教版_数学.html' },
-            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/7下_人教版_语文.html' },
-            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/7下_人教版_数学.html' },
-            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '英语', filePath: 'maps/7下_人教版_英语.html' },
-            { grade: '七年级', semester: '下册', publisher: '湖南教育出版社', subject: '地理', filePath: 'maps/7下_湘教版_地理.html' },
+            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3上_人教版_语文.html', visits: 0 },
+            { grade: '三年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3上_湘少版_英语.html', visits: 0 },
+            { grade: '三年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3上_人教版_数学.html', visits: 0 },
+            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/3下_人教版_语文.html', visits: 0 },
+            { grade: '三年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/3下_人教版_数学.html', visits: 0 },
+            { grade: '三年级', semester: '下册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/3下_湘少版_英语.html', visits: 0 },
+            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/4上_人教版_语文.html', visits: 0 },
+            { grade: '四年级', semester: '上册', publisher: '湖南少年儿童出版社', subject: '英语', filePath: 'maps/4上_湘少版_英语.html', visits: 0 },
+            { grade: '四年级', semester: '上册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/4上_人教版_数学.html', visits: 0 },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '语文', filePath: 'maps/7下_人教版_语文.html', visits: 0 },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '数学', filePath: 'maps/7下_人教版_数学.html', visits: 0 },
+            { grade: '七年级', semester: '下册', publisher: '人民教育出版社', subject: '英语', filePath: 'maps/7下_人教版_英语.html', visits: 0 },
+            { grade: '七年级', semester: '下册', publisher: '湖南教育出版社', subject: '地理', filePath: 'maps/7下_湘教版_地理.html', visits: 0 },
         ];
 
         const gradeSelect = document.getElementById('gradeSelect');
@@ -290,6 +345,13 @@
         const subjectSelect = document.getElementById('subjectSelect');
         const resultsContainer = document.getElementById('resultsContainer');
         const resetButton = document.getElementById('resetButton');
+
+        let activeFilters = {
+            grade: '',
+            semester: '',
+            publisher: '',
+            subject: ''
+        };
 
         function populateOptions() {
             const uniqueGrades = [...new Set(data.map(item => item.grade))].sort();
@@ -319,6 +381,13 @@
             const selectedPublisher = publisherSelect.value;
             const selectedSubject = subjectSelect.value;
 
+            activeFilters = {
+                grade: selectedGrade,
+                semester: selectedSemester,
+                publisher: selectedPublisher,
+                subject: selectedSubject
+            };
+
             let filteredData = data;
 
             if (selectedGrade) {
@@ -334,22 +403,56 @@
                 filteredData = filteredData.filter(item => item.subject === selectedSubject);
             }
 
+            // 默认按科目排序
+            filteredData.sort((a, b) => a.subject.localeCompare(b.subject));
             displayResults(filteredData);
         }
 
         function displayResults(results) {
-            resultsContainer.innerHTML = '';
-            if (results.length > 0) {
-                results.forEach(item => {
-                    const resultCard = document.createElement('div');
-                    resultCard.className = `result-card ${getSubjectColorClass(item.subject)}`;
-                    resultCard.setAttribute('data-filepath', item.filePath);
+            const resultsContainer = document.getElementById('resultsContainer');
+            const existingCards = Array.from(resultsContainer.children);
+            const newCardData = results.map(item => ({
+                filePath: item.filePath,
+                subject: item.subject,
+                grade: item.grade,
+                publisher: item.publisher,
+                semester: item.semester
+            }));
 
+            // 移除不再需要的卡片
+            existingCards.forEach(card => {
+                const cardFilePath = card.getAttribute('data-filepath');
+                const shouldRemove = !newCardData.some(item => item.filePath === cardFilePath);
+                if (shouldRemove) {
+                    card.style.opacity = 0;
+                    card.style.transform = 'scale(0.95);';
+                    setTimeout(() => card.remove(), 200);
+                }
+            });
+
+            // 添加或更新卡片
+            newCardData.forEach(item => {
+                let card = existingCards.find(c => c.getAttribute('data-filepath') === item.filePath);
+                if (!card) {
+                    card = document.createElement('div');
+                    card.className = `result-card ${getSubjectColorClass(item.subject)}`;
+                    card.setAttribute('data-filepath', item.filePath);
+                    card.style.opacity = 0;
+                    card.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        card.style.opacity = 1;
+                        card.style.transform = 'scale(1)';
+                    }, 5);
                     const cardHeader = document.createElement('div');
                     cardHeader.className = 'result-card-header';
                     const title = document.createElement('h2');
-                    title.textContent = `${item.subject} - ${item.grade} ${item.semester}`;
+                    title.textContent = `${item.subject}`;
                     cardHeader.appendChild(title);
+
+                    const gradeLabel = document.createElement('p');
+                    gradeLabel.className = 'grade-label';
+                    gradeLabel.textContent = `${item.grade}`;
+                    cardHeader.appendChild(gradeLabel);
 
                     const cardBody = document.createElement('div');
                     cardBody.className = 'result-card-body';
@@ -357,17 +460,40 @@
                     publisherInfo.textContent = `${item.publisher}`;
                     cardBody.appendChild(publisherInfo);
 
-                    resultCard.appendChild(cardHeader);
-                    resultCard.appendChild(cardBody);
-                    resultsContainer.appendChild(resultCard);
+                    const semesterLabel = document.createElement('div');
+                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'}`;
+                    semesterLabel.textContent = item.semester;
+                    card.appendChild(semesterLabel);
 
-                    resultCard.addEventListener('click', () => {
+                    card.appendChild(cardHeader);
+                    card.appendChild(cardBody);
+                    resultsContainer.appendChild(card);
+
+                    card.addEventListener('click', () => {
+                        const clickedItem = data.find(d => d.filePath === item.filePath);
+                        if (clickedItem) {
+                            clickedItem.visits++;
+                            sessionStorage.setItem(item.filePath, clickedItem.visits);
+                        }
                         openMindMap(item.filePath);
+                        filterAndDisplayResults();
                     });
-                });
-            } else {
-                resultsContainer.innerHTML = '<p>未找到匹配的思维导图，请检查您的选择。</p>';
-            }
+                } else {
+                    // 更新已存在的卡片内容
+                    const cardHeader = card.querySelector('.result-card-header');
+                    const title = cardHeader.querySelector('h2');
+                    title.textContent = `${item.subject}`;
+                    const gradeLabel = cardHeader.querySelector('.grade-label');
+                    gradeLabel.textContent = `${item.grade}`;
+                    const cardBody = card.querySelector('.result-card-body');
+                    const publisherInfo = cardBody.querySelector('p');
+                    publisherInfo.textContent = `${item.publisher}`;
+                    const semesterLabel = card.querySelector('.semester-label');
+                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'}`;
+                    semesterLabel.textContent = item.semester;
+                    card.className = `result-card ${getSubjectColorClass(item.subject)}`;
+                }
+            });
         }
 
         function getSubjectColorClass(subject) {
@@ -397,6 +523,12 @@
             semesterSelect.value = '';
             publisherSelect.value = '';
             subjectSelect.value = '';
+            activeFilters = {
+                grade: '',
+                semester: '',
+                publisher: '',
+                subject: ''
+            };
             resultsContainer.innerHTML = '<p>请选择筛选条件，以查看相关思维导图。</p>';
         }
 
@@ -408,6 +540,10 @@
 
         window.onload = function () {
             populateOptions();
+            data.forEach(item => {
+                item.visits = parseInt(sessionStorage.getItem(item.filePath)) || 0;
+            });
+            filterAndDisplayResults();
         };
     </script>
 </body>
