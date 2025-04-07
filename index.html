@@ -37,7 +37,7 @@
             margin-bottom: 20px;
             border: 1px solid #ddd;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            position: relative; /* 为切换按钮的定位提供参考 */
+            position: relative;
         }
 
         h1 {
@@ -191,84 +191,59 @@
             color: white;
         }
 
-        #toggleDarkMode {
+        /* iPhone 风格切换开关 */
+        .iphone-switch {
             position: fixed;
             top: 10px;
             right: 10px;
-            width: 60px;
+            width: 50px;
             height: 30px;
-            background-color: #f0f0f0;
-            border-radius: 20px;
-            cursor: pointer;
+            display: inline-block;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease;
-            overflow: hidden;
         }
 
-        #toggleDarkMode input {
+        .iphone-switch input {
             display: none;
         }
 
-        #toggleDarkMode .toggle-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        #toggleDarkMode .divider {
+        .iphone-switch .slider {
             position: absolute;
-            left: 50%;
-            top: 10%;
-            width: 1px;
-            height: 80%;
-            background-color: #999;
-            transform: translateX(-50%);
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
         }
 
-        #toggleDarkMode .light-mode-icon,
-        #toggleDarkMode .dark-mode-icon {
-            font-size: 24px;
-            width: 50%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease;
+        .iphone-switch .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
         }
 
-        #toggleDarkMode .light-mode-icon {
-            color: #f4c430;
+        .iphone-switch input:checked + .slider {
+            background-color: #4CAF50;
         }
 
-        #toggleDarkMode .dark-mode-icon {
-            color: #90caf9;
+        .iphone-switch input:checked + .slider:before {
+            transform: translateX(20px);
         }
 
-        #toggleDarkMode input:not(:checked) ~ .toggle-container .light-mode-icon {
-            opacity: 1;
+        body.dark-mode .iphone-switch .slider {
+            background-color: #666;
         }
 
-        #toggleDarkMode input:not(:checked) ~ .toggle-container .dark-mode-icon {
-            opacity: 0;
-        }
-
-        #toggleDarkMode input:checked ~ .toggle-container .light-mode-icon {
-            opacity: 0;
-        }
-
-        #toggleDarkMode input:checked ~ .toggle-container .dark-mode-icon {
-            opacity: 1;
-        }
-
-        #toggleDarkMode input:checked + .toggle-container {
-            background-color: #333;
+        body.dark-mode .iphone-switch input:checked + .slider {
+            background-color: #4CAF50;
         }
 
         @media (max-width: 768px) {
@@ -295,67 +270,25 @@
                 margin-right: auto;
             }
 
-            #toggleDarkMode {
+            .iphone-switch {
                 position: static;
                 margin: 10px auto 0 auto;
+                display: block;
             }
         }
 
         /* 科目颜色（浅色模式） */
-        .yuwen {
-            background-image: linear-gradient(to right, #f0f4c3, #d4edda);
-            color: #1a5235;
-        }
-
-        .shuxue {
-            background-image: linear-gradient(to right, #e0f7fa, #b2ebf2);
-            color: #084b61;
-        }
-
-        .yingyu {
-            background-image: linear-gradient(to right, #fce4ec, #f8bbd0);
-            color: #5e35b1;
-        }
-
-        .wuli {
-            background-image: linear-gradient(to right, #fff8e1, #ffecb3);
-            color: #e65100;
-        }
-
-        .huaxue {
-            background-image: linear-gradient(to right, #f3e5f5, #e1bee7);
-            color: #512da8;
-        }
-
-        .shengwu {
-            background-image: linear-gradient(to right, #e8f5e9, #c8e6c9);
-            color: #2e7d32;
-        }
-
-        .lishi {
-            background-image: linear-gradient(to right, #fff3e0, #ffe082);
-            color: #d84315;
-        }
-
-        .dili {
-            background-image: linear-gradient(to right, #e0f2f1, #b2dfdb);
-            color: #00695c;
-        }
-
-        .zhengzhi {
-            background-image: linear-gradient(to right, #ede7f6, #d1c4e9);
-            color: #311b92;
-        }
-
-        .kexue {
-            background-image: linear-gradient(to right, #f0f4c3, #dcedc8);
-            color: #558b2f;
-        }
-
-        .xinxi {
-            background-image: linear-gradient(to right, #f8f0fb, #e9c4ef);
-            color: #8e24aa;
-        }
+        .yuwen { background-image: linear-gradient(to right, #f0f4c3, #d4edda); color: #1a5235; }
+        .shuxue { background-image: linear-gradient(to right, #e0f7fa, #b2ebf2); color: #084b61; }
+        .yingyu { background-image: linear-gradient(to right, #fce4ec, #f8bbd0); color: #5e35b1; }
+        .wuli { background-image: linear-gradient(to right, #fff8e1, #ffecb3); color: #e65100; }
+        .huaxue { background-image: linear-gradient(to right, #f3e5f5, #e1bee7); color: #512da8; }
+        .shengwu { background-image: linear-gradient(to right, #e8f5e9, #c8e6c9); color: #2e7d32; }
+        .lishi { background-image: linear-gradient(to right, #fff3e0, #ffe082); color: #d84315; }
+        .dili { background-image: linear-gradient(to right, #e0f2f1, #b2dfdb); color: #00695c; }
+        .zhengzhi { background-image: linear-gradient(to right, #ede7f6, #d1c4e9); color: #311b92; }
+        .kexue { background-image: linear-gradient(to right, #f0f4c3, #dcedc8); color: #558b2f; }
+        .xinxi { background-image: linear-gradient(to right, #f8f0fb, #e9c4ef); color: #8e24aa; }
 
         .semester-label {
             position: absolute;
@@ -368,15 +301,8 @@
             transition: color 0.3s ease;
         }
 
-        .semester-top-right {
-            top: 5px;
-            right: 5px;
-        }
-
-        .semester-bottom-right {
-            bottom: 5px;
-            right: 5px;
-        }
+        .semester-top-right { top: 5px; right: 5px; }
+        .semester-bottom-right { bottom: 5px; right: 5px; }
 
         .grade-label {
             position: absolute;
@@ -406,18 +332,9 @@
             border-color: #444;
         }
 
-        h1.dark-mode {
-            color: #fff;
-        }
-
-        p.dark-mode {
-            color: #ddd;
-        }
-
-        .selectors .selector-item label.dark-mode {
-            color: #ddd;
-        }
-
+        h1.dark-mode { color: #fff; }
+        p.dark-mode { color: #ddd; }
+        .selectors .selector-item label.dark-mode { color: #ddd; }
         .selectors .selector-item select.dark-mode {
             background-color: #444;
             color: #eee;
@@ -440,25 +357,10 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        .results-container .result-card.dark-mode p {
-            color: #ddd;
-        }
-
-        .reset-button.dark-mode {
-            background-color: #444;
-            color: #eee;
-        }
-
-        .reset-button.dark-mode:hover {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .semester-label.dark-mode {
-            color: #eee;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-        }
-
+        .results-container .result-card.dark-mode p { color: #ddd; }
+        .reset-button.dark-mode { background-color: #444; color: #eee; }
+        .reset-button.dark-mode:hover { background-color: #4CAF50; color: white; }
+        .semester-label.dark-mode { color: #eee; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4); }
         .grade-label.dark-mode {
             color: #fff;
             font-size: 16px;
@@ -469,60 +371,17 @@
         }
 
         /* 黑暗模式下的科目渐变色 */
-        .yuwen.dark-mode {
-            background-image: linear-gradient(to right, #6b7349, #4a6b52);
-            color: #e0e0e0;
-        }
-
-        .shuxue.dark-mode {
-            background-image: linear-gradient(to right, #4a7882, #367b8c);
-            color: #e0e0e0;
-        }
-
-        .yingyu.dark-mode {
-            background-image: linear-gradient(to right, #8e4770, #7b3f66);
-            color: #e0e0e0;
-        }
-
-        .wuli.dark-mode {
-            background-image: linear-gradient(to right, #8a6c38, #7a5c2e);
-            color: #e0e0e0;
-        }
-
-        .huaxue.dark-mode {
-            background-image: linear-gradient(to right, #674b96, #5a4085);
-            color: #e0e0e0;
-        }
-
-        .shengwu.dark-mode {
-            background-image: linear-gradient(to right, #4a704c, #3e6140);
-            color: #e0e0e0;
-        }
-
-        .lishi.dark-mode {
-            background-image: linear-gradient(to right, #8a4b38, #7a3e2e);
-            color: #e0e0e0;
-        }
-
-        .dili.dark-mode {
-            background-image: linear-gradient(to right, #4a7874, #366b66);
-            color: #e0e0e0;
-        }
-
-        .zhengzhi.dark-mode {
-            background-image: linear-gradient(to right, #5a4b8a, #4e4080);
-            color: #e0e0e0;
-        }
-
-        .kexue.dark-mode {
-            background-image: linear-gradient(to right, #6b7349, #5a6b43);
-            color: #e0e0e0;
-        }
-
-        .xinxi.dark-mode {
-            background-image: linear-gradient(to right, #7a4b8a, #6b4080);
-            color: #e0e0e0;
-        }
+        .yuwen.dark-mode { background-image: linear-gradient(to right, #6b7349, #4a6b52); color: #e0e0e0; }
+        .shuxue.dark-mode { background-image: linear-gradient(to right, #4a7882, #367b8c); color: #e0e0e0; }
+        .yingyu.dark-mode { background-image: linear-gradient(to right, #8e4770, #7b3f66); color: #e0e0e0; }
+        .wuli.dark-mode { background-image: linear-gradient(to right, #8a6c38, #7a5c2e); color: #e0e0e0; }
+        .huaxue.dark-mode { background-image: linear-gradient(to right, #674b96, #5a4085); color: #e0e0e0; }
+        .shengwu.dark-mode { background-image: linear-gradient(to right, #4a704c, #3e6140); color: #e0e0e0; }
+        .lishi.dark-mode { background-image: linear-gradient(to right, #8a4b38, #7a3e2e); color: #e0e0e0; }
+        .dili.dark-mode { background-image: linear-gradient(to right, #4a7874, #366b66); color: #e0e0e0; }
+        .zhengzhi.dark-mode { background-image: linear-gradient(to right, #5a4b8a, #4e4080); color: #e0e0e0; }
+        .kexue.dark-mode { background-image: linear-gradient(to right, #6b7349, #5a6b43); color: #e0e0e0; }
+        .xinxi.dark-mode { background-image: linear-gradient(to right, #7a4b8a, #6b4080); color: #e0e0e0; }
     </style>
 </head>
 <body>
@@ -556,13 +415,9 @@
         <div class="results-container" id="resultsContainer">
             <p>请选择筛选条件，以查看相关思维导图。</p>
         </div>
-        <label id="toggleDarkMode">
+        <label id="toggleDarkMode" class="iphone-switch">
             <input type="checkbox" id="darkModeCheckbox">
-            <div class="toggle-container">
-                <span class="light-mode-icon">☀️</span>
-                <span class="divider"></span>
-                <span class="dark-mode-icon">🌙</span>
-            </div>
+            <span class="slider"></span>
         </label>
     </div>
     <script>
@@ -599,7 +454,7 @@
         const resultCards = document.querySelectorAll('.result-card');
         const semesterLabels = document.querySelectorAll('.semester-label');
         const gradeLabels = document.querySelectorAll('.grade-label');
-        const logo = document.querySelector('.logo'); // 新增对 LOGO 的引用
+        const logo = document.querySelector('.logo');
 
         let isDarkMode = false;
 
@@ -795,8 +650,7 @@
             document.querySelectorAll('.result-card').forEach(card => card.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.semester-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.grade-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
-            logo.classList.toggle('dark-mode', isDarkMode); // 新增对 LOGO 的暗模式切换
-            toggleDarkModeLabel.style.backgroundColor = isDarkMode ? '#333' : '#f0f0f0';
+            logo.classList.toggle('dark-mode', isDarkMode);
         }
 
         gradeSelect.addEventListener('change', filterAndDisplayResults);
