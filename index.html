@@ -265,24 +265,60 @@
                 max-width: 300px;
             }
 
+            .results-container {
+                justify-content: space-between; /* 卡片两端对齐 */
+                gap: 10px; /* 保持间距 */
+            }
+
             .result-card {
-                width: 90%;
-                margin-left: auto;
-                margin-right: auto;
+                width: 48%; /* 每张卡片占48%，留2%间距，确保一行两张 */
+                min-height: 80px; /* 缩小高度 */
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .result-card-header {
+                padding: 6px; /* 减小内边距 */
+            }
+
+            .result-card-header h2 {
+                font-size: 14px; /* 减小标题字体 */
+            }
+
+            .result-card-header p {
+                font-size: 10px; /* 减小年级字体 */
+            }
+
+            .result-card-body {
+                padding: 4px 6px; /* 减小内边距 */
+            }
+
+            .result-card-body p {
+                font-size: 10px; /* 减小出版社字体 */
+            }
+
+            .semester-label {
+                font-size: 8px; /* 减小学期标签字体 */
+                padding: 1px;
+            }
+
+            .grade-label {
+                font-size: 12px; /* 减小年级标签字体 */
+                padding: 2px 4px;
             }
 
             .iphone-switch {
-                position: absolute; /* 改为 absolute 以避免脱离文档流 */
+                position: absolute;
                 top: 10px;
                 right: 10px;
-                width: 50px; /* 明确宽度 */
-                height: 30px; /* 明确高度 */
-                margin: 0; /* 移除外边距 */
+                width: 50px;
+                height: 30px;
+                margin: 0;
             }
 
             .container {
-                position: relative; /* 确保容器为定位上下文 */
-                padding-top: 50px; /* 增加顶部内边距，避免开关遮挡内容 */
+                position: relative;
+                padding-top: 50px;
             }
         }
 
@@ -619,7 +655,7 @@
                 '英语': 'yingyu',
                 '物理': 'wuli',
                 '化学': 'huaxue',
-                '生物 ola': 'shengwu',
+                '生物': 'shengwu',
                 '历史': 'lishi',
                 '地理': 'dili',
                 '政治': 'zhengzhi',
