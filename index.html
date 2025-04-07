@@ -246,6 +246,7 @@
             background-color: #4CAF50;
         }
 
+        /* 移动端适配 */
         @media (max-width: 768px) {
             .selectors {
                 flex-direction: column;
@@ -271,9 +272,17 @@
             }
 
             .iphone-switch {
-                position: static;
-                margin: 10px auto 0 auto;
-                display: block;
+                position: absolute; /* 改为 absolute 以避免脱离文档流 */
+                top: 10px;
+                right: 10px;
+                width: 50px; /* 明确宽度 */
+                height: 30px; /* 明确高度 */
+                margin: 0; /* 移除外边距 */
+            }
+
+            .container {
+                position: relative; /* 确保容器为定位上下文 */
+                padding-top: 50px; /* 增加顶部内边距，避免开关遮挡内容 */
             }
         }
 
@@ -610,7 +619,7 @@
                 '英语': 'yingyu',
                 '物理': 'wuli',
                 '化学': 'huaxue',
-                '生物': 'shengwu',
+                '生物 ola': 'shengwu',
                 '历史': 'lishi',
                 '地理': 'dili',
                 '政治': 'zhengzhi',
