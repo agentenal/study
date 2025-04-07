@@ -6,33 +6,36 @@
     <title>思维导图筛选器</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Light Theme */
         body {
             font-family: 'Noto Sans SC', sans-serif;
             margin: 0;
             padding: 0;
-            /* 修改背景属性，添加背景图片 */
-            background-image: url('https://wallpaperm.cmcm.com/0ec1f95dffdd628dcc4f09d00521589e.jpg'); /* 替换为你的图片URL */
-            background-size: cover; /* 覆盖整个屏幕 */
-            background-position: center; /* 图片居中显示 */
-            background-repeat: no-repeat; /* 防止图片重复 */
+            background-image: url('https://wallpaperm.cmcm.com/0ec1f95dffdd628dcc4f09d00521589e.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding-top: 20px;
-            background-attachment: fixed; /* 添加此行，使背景固定 */
+            background-attachment: fixed;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
             max-width: 1000px;
             width: 95%;
-            background-color: rgba(255, 255, 255, 0.3); /* 修改了这一行，原来的值是 0.8 */
+            background-color: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-bottom: 20px;
             border: 1px solid #ddd;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         h1 {
@@ -40,12 +43,14 @@
             text-align: center;
             margin-bottom: 20px;
             font-weight: 700;
+            transition: color 0.3s ease;
         }
 
         p {
             color: #555;
             text-align: center;
             margin-bottom: 20px;
+            transition: color 0.3s ease;
         }
 
         .selectors {
@@ -66,7 +71,8 @@
         .selector-item label {
             font-weight: 500;
             color: #444;
-            display: none; /* 隐藏标签 */
+            display: none;
+            transition: color 0.3s ease;
         }
 
         .selector-item select {
@@ -75,8 +81,10 @@
             border-radius: 5px;
             width: 180px;
             font-size: 14px;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
             font-family: 'Noto Sans SC', sans-serif;
+            background-color: #fff;
+            color: #333;
         }
 
         .selector-item select:focus {
@@ -97,19 +105,19 @@
         }
 
         .results-container > * {
-            transition: opacity 0.2s ease, transform 0.2s ease; /* 更快的过渡 */
+            transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
         .result-card {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 240px; /* 增加宽度 */
+            width: 240px;
             min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
             cursor: pointer;
             border: 1px solid #eee;
             position: relative;
@@ -117,7 +125,7 @@
         }
 
         .result-card:hover {
-            transform: scale(1.10);
+            transform: scale(1.05);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
@@ -129,6 +137,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: border-color 0.3s ease;
         }
 
         .result-card-header h2 {
@@ -140,10 +149,12 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             text-align: center;
+            transition: color 0.3s ease;
         }
 
-        .result-card-header p{
+        .result-card-header p {
             font-size: 12px;
+            transition: color 0.3s ease;
         }
 
         .result-card-body {
@@ -154,6 +165,7 @@
             margin: 0;
             font-size: 12px;
             color: #666;
+            transition: color 0.3s ease;
         }
 
         .reset-button {
@@ -175,6 +187,70 @@
         .reset-button:hover {
             background-color: #4CAF50;
             color: white;
+        }
+
+        #toggleDarkMode {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 30px;
+            background-color: #ccc;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 3px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #toggleDarkMode input {
+            display: none;
+        }
+
+        #toggleDarkMode .slider {
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        #toggleDarkMode .slider::before {
+            content: '☀️';
+            position: absolute;
+            color: #f4c430;
+        }
+
+        #toggleDarkMode input:checked + .slider {
+            transform: translateX(20px);
+        }
+
+        #toggleDarkMode input:checked + .slider::before {
+            content: '🌙';
+            color: #90caf9;
+        }
+
+        #toggleDarkMode input:checked ~ .toggle-background {
+            background-color: #4CAF50;
+        }
+
+        .toggle-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ccc;
+            border-radius: 15px;
+            transition: background-color 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -200,9 +276,14 @@
                 margin-left: auto;
                 margin-right: auto;
             }
+
+            #toggleDarkMode {
+                position: static;
+                margin: 10px auto 0 auto;
+            }
         }
 
-        /* 科目颜色 */
+        /* 科目颜色（浅色模式） */
         .yuwen {
             background-image: linear-gradient(to right, #f0f4c3, #d4edda);
             color: #1a5235;
@@ -266,6 +347,7 @@
             padding: 2px;
             top: 3px;
             right: 3px;
+            transition: color 0.3s ease;
         }
 
         .semester-top-right {
@@ -278,16 +360,153 @@
             right: 5px;
         }
 
+        /* 年级标签样式（亮模式） */
         .grade-label {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 12px;
+            font-size: 16px; /* 字体加大 */
             font-weight: bold;
             color: #333;
+            padding: 4px 8px; /* 增加内边距 */
+            letter-spacing: 1px; /* 字间距加宽 */
+            transition: color 0.3s ease, text-shadow 0.3s ease;
         }
 
+        /* Dark Theme */
+        body.dark-mode {
+            background-image: url('https://wallpaperm.cmcm.com/a5899989f179159e4598198427978915.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(18, 18, 18, 0.8);
+            color: #eee;
+        }
+
+        .container.dark-mode {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-color: #444;
+        }
+
+        h1.dark-mode {
+            color: #fff;
+        }
+
+        p.dark-mode {
+            color: #ddd;
+        }
+
+        .selectors .selector-item label.dark-mode {
+            color: #ddd;
+        }
+
+        .selectors .selector-item select.dark-mode {
+            background-color: #444;
+            color: #eee;
+            border-color: #666;
+        }
+
+        .selectors .selector-item select.dark-mode:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .results-container .result-card.dark-mode {
+            background-color: rgba(42, 42, 42, 0.9);
+            border-color: #555;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .results-container .result-card.dark-mode h2 {
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .results-container .result-card.dark-mode p {
+            color: #ddd;
+        }
+
+        .reset-button.dark-mode {
+            background-color: #444;
+            color: #eee;
+        }
+
+        .reset-button.dark-mode:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .semester-label.dark-mode {
+            color: #eee;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 年级标签样式（暗模式） */
+        .grade-label.dark-mode {
+            color: #fff; /* 颜色调整为白色，与暗模式协调 */
+            font-size: 16px; /* 与亮模式一致 */
+            font-weight: bold; /* 与亮模式一致 */
+            padding: 4px 8px; /* 与亮模式一致 */
+            letter-spacing: 1px; /* 与亮模式一致 */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* 暗模式下的阴影 */
+        }
+
+        /* 黑暗模式下的科目渐变色 */
+        .yuwen.dark-mode {
+            background-image: linear-gradient(to right, #6b7349, #4a6b52);
+            color: #e0e0e0;
+        }
+
+        .shuxue.dark-mode {
+            background-image: linear-gradient(to right, #4a7882, #367b8c);
+            color: #e0e0e0;
+        }
+
+        .yingyu.dark-mode {
+            background-image: linear-gradient(to right, #8e4770, #7b3f66);
+            color: #e0e0e0;
+        }
+
+        .wuli.dark-mode {
+            background-image: linear-gradient(to right, #8a6c38, #7a5c2e);
+            color: #e0e0e0;
+        }
+
+        .huaxue.dark-mode {
+            background-image: linear-gradient(to right, #674b96, #5a4085);
+            color: #e0e0e0;
+        }
+
+        .shengwu.dark-mode {
+            background-image: linear-gradient(to right, #4a704c, #3e6140);
+            color: #e0e0e0;
+        }
+
+        .lishi.dark-mode {
+            background-image: linear-gradient(to right, #8a4b38, #7a3e2e);
+            color: #e0e0e0;
+        }
+
+        .dili.dark-mode {
+            background-image: linear-gradient(to right, #4a7874, #366b66);
+            color: #e0e0e0;
+        }
+
+        .zhengzhi.dark-mode {
+            background-image: linear-gradient(to right, #5a4b8a, #4e4080);
+            color: #e0e0e0;
+        }
+
+        .kexue.dark-mode {
+            background-image: linear-gradient(to right, #6b7349, #5a6b43);
+            color: #e0e0e0;
+        }
+
+        .xinxi.dark-mode {
+            background-image: linear-gradient(to right, #7a4b8a, #6b4080);
+            color: #e0e0e0;
+        }
     </style>
 </head>
 <body>
@@ -321,6 +540,11 @@
         <div class="results-container" id="resultsContainer">
             <p>请选择筛选条件，以查看相关思维导图。</p>
         </div>
+        <label id="toggleDarkMode">
+            <input type="checkbox" id="darkModeCheckbox">
+            <span class="slider"></span>
+            <span class="toggle-background"></span>
+        </label>
     </div>
     <script>
         const data = [
@@ -345,13 +569,19 @@
         const subjectSelect = document.getElementById('subjectSelect');
         const resultsContainer = document.getElementById('resultsContainer');
         const resetButton = document.getElementById('resetButton');
+        const toggleDarkModeLabel = document.getElementById('toggleDarkMode');
+        const darkModeCheckbox = document.getElementById('darkModeCheckbox');
+        const body = document.body;
+        const container = document.querySelector('.container');
+        const headers = document.querySelectorAll('h1, h2');
+        const paragraphs = document.querySelectorAll('p');
+        const labels = document.querySelectorAll('.selector-item label');
+        const selects = document.querySelectorAll('.selector-item select');
+        const resultCards = document.querySelectorAll('.result-card');
+        const semesterLabels = document.querySelectorAll('.semester-label');
+        const gradeLabels = document.querySelectorAll('.grade-label');
 
-        let activeFilters = {
-            grade: '',
-            semester: '',
-            publisher: '',
-            subject: ''
-        };
+        let isDarkMode = false;
 
         function populateOptions() {
             const uniqueGrades = [...new Set(data.map(item => item.grade))].sort();
@@ -403,7 +633,6 @@
                 filteredData = filteredData.filter(item => item.subject === selectedSubject);
             }
 
-            // 默认按科目排序
             filteredData.sort((a, b) => a.subject.localeCompare(b.subject));
             displayResults(filteredData);
         }
@@ -419,7 +648,6 @@
                 semester: item.semester
             }));
 
-            // 移除不再需要的卡片
             existingCards.forEach(card => {
                 const cardFilePath = card.getAttribute('data-filepath');
                 const shouldRemove = !newCardData.some(item => item.filePath === cardFilePath);
@@ -430,12 +658,11 @@
                 }
             });
 
-            // 添加或更新卡片
             newCardData.forEach(item => {
                 let card = existingCards.find(c => c.getAttribute('data-filepath') === item.filePath);
                 if (!card) {
                     card = document.createElement('div');
-                    card.className = `result-card ${getSubjectColorClass(item.subject)}`;
+                    card.className = `result-card ${getSubjectColorClass(item.subject)} ${isDarkMode ? 'dark-mode' : ''}`;
                     card.setAttribute('data-filepath', item.filePath);
                     card.style.opacity = 0;
                     card.style.transform = 'scale(0.95)';
@@ -444,13 +671,14 @@
                         card.style.transform = 'scale(1)';
                     }, 5);
                     const cardHeader = document.createElement('div');
-                    cardHeader.className = 'result-card-header';
+                    cardHeader.className = `result-card-header ${isDarkMode ? 'dark-mode' : ''}`;
                     const title = document.createElement('h2');
                     title.textContent = `${item.subject}`;
+                    title.className = isDarkMode ? 'dark-mode' : '';
                     cardHeader.appendChild(title);
 
                     const gradeLabel = document.createElement('p');
-                    gradeLabel.className = 'grade-label';
+                    gradeLabel.className = `grade-label ${isDarkMode ? 'dark-mode': ''}`;
                     gradeLabel.textContent = `${item.grade}`;
                     cardHeader.appendChild(gradeLabel);
 
@@ -458,10 +686,11 @@
                     cardBody.className = 'result-card-body';
                     const publisherInfo = document.createElement('p');
                     publisherInfo.textContent = `${item.publisher}`;
+                    publisherInfo.className = isDarkMode ? 'dark-mode' : '';
                     cardBody.appendChild(publisherInfo);
 
                     const semesterLabel = document.createElement('div');
-                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'}`;
+                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'} ${isDarkMode ? 'dark-mode' : ''}`;
                     semesterLabel.textContent = item.semester;
                     card.appendChild(semesterLabel);
 
@@ -479,19 +708,22 @@
                         filterAndDisplayResults();
                     });
                 } else {
-                    // 更新已存在的卡片内容
+                    card.className = `result-card ${getSubjectColorClass(item.subject)} ${isDarkMode ? 'dark-mode' : ''}`;
                     const cardHeader = card.querySelector('.result-card-header');
+                    cardHeader.className = `result-card-header ${isDarkMode ? 'dark-mode' : ''}`;
                     const title = cardHeader.querySelector('h2');
                     title.textContent = `${item.subject}`;
+                    title.className = isDarkMode ? 'dark-mode' : '';
                     const gradeLabel = cardHeader.querySelector('.grade-label');
+                    gradeLabel.className = `grade-label ${isDarkMode ? 'dark-mode' : ''}`;
                     gradeLabel.textContent = `${item.grade}`;
                     const cardBody = card.querySelector('.result-card-body');
                     const publisherInfo = cardBody.querySelector('p');
                     publisherInfo.textContent = `${item.publisher}`;
+                    publisherInfo.className = isDarkMode ? 'dark-mode' : '';
                     const semesterLabel = card.querySelector('.semester-label');
-                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'}`;
+                    semesterLabel.className = `semester-label ${item.semester === '上册' ? 'semester-top-right' : 'semester-bottom-right'} ${isDarkMode ? 'dark-mode' : ''}`;
                     semesterLabel.textContent = item.semester;
-                    card.className = `result-card ${getSubjectColorClass(item.subject)}`;
                 }
             });
         }
@@ -532,11 +764,25 @@
             resultsContainer.innerHTML = '<p>请选择筛选条件，以查看相关思维导图。</p>';
         }
 
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            body.classList.toggle('dark-mode', isDarkMode);
+            container.classList.toggle('dark-mode', isDarkMode);
+            headers.forEach(header => header.classList.toggle('dark-mode', isDarkMode));
+            paragraphs.forEach(p => p.classList.toggle('dark-mode', isDarkMode));
+            labels.forEach(label => label.classList.toggle('dark-mode', isDarkMode));
+            selects.forEach(select => select.classList.toggle('dark-mode', isDarkMode));
+            document.querySelectorAll('.result-card').forEach(card => card.classList.toggle('dark-mode', isDarkMode));
+            document.querySelectorAll('.semester-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
+            document.querySelectorAll('.grade-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
+        }
+
         gradeSelect.addEventListener('change', filterAndDisplayResults);
         semesterSelect.addEventListener('change', filterAndDisplayResults);
         publisherSelect.addEventListener('change', filterAndDisplayResults);
         subjectSelect.addEventListener('change', filterAndDisplayResults);
         resetButton.addEventListener('click', resetSelections);
+        darkModeCheckbox.addEventListener('change', toggleDarkMode);
 
         window.onload = function () {
             populateOptions();
