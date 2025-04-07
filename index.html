@@ -189,68 +189,89 @@
             color: white;
         }
 
+        /* 新长圆角矩形切换按钮样式 */
         #toggleDarkMode {
             position: fixed;
             top: 10px;
             right: 10px;
-            width: 50px;
-            height: 30px;
-            background-color: #ccc;
-            border-radius: 15px;
+            width: 60px; /* 宽度大于高度，形成长矩形 */
+            height: 30px; /* 高度较小 */
+            background-color: #f0f0f0; /* 默认亮模式背景 */
+            border-radius: 20px; /* 圆角矩形 */
             cursor: pointer;
-            transition: background-color 0.3s ease;
             z-index: 1000;
             display: flex;
             align-items: center;
-            padding: 0 3px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            overflow: hidden;
         }
 
         #toggleDarkMode input {
             display: none;
         }
 
-        #toggleDarkMode .slider {
-            width: 24px;
-            height: 24px;
-            background-color: #fff;
-            border-radius: 50%;
+        #toggleDarkMode .toggle-container {
             position: relative;
-            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 竖线隔断 */
+        #toggleDarkMode .divider {
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            width: 1px;
+            height: 80%;
+            background-color: #999;
+            transform: translateX(-50%);
+        }
+
+        /* 左右图案 */
+        #toggleDarkMode .light-mode-icon,
+        #toggleDarkMode .dark-mode-icon {
+            font-size: 24px;
+            width: 50%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            transition: opacity 0.3s ease;
         }
 
-        #toggleDarkMode .slider::before {
-            content: '☀️';
-            position: absolute;
-            color: #f4c430;
+        #toggleDarkMode .light-mode-icon {
+            color: #f4c430; /* 太阳图标颜色 */
         }
 
-        #toggleDarkMode input:checked + .slider {
-            transform: translateX(20px);
+        #toggleDarkMode .dark-mode-icon {
+            color: #90caf9; /* 月亮图标颜色 */
         }
 
-        #toggleDarkMode input:checked + .slider::before {
-            content: '🌙';
-            color: #90caf9;
+        /* 选中模式显示，未选中模式隐藏 */
+        #toggleDarkMode input:not(:checked) ~ .toggle-container .light-mode-icon {
+            opacity: 1; /* 亮模式选中时显示 */
         }
 
-        #toggleDarkMode input:checked ~ .toggle-background {
-            background-color: #4CAF50;
+        #toggleDarkMode input:not(:checked) ~ .toggle-container .dark-mode-icon {
+            opacity: 0; /* 暗模式未选中时隐藏 */
         }
 
-        .toggle-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ccc;
-            border-radius: 15px;
-            transition: background-color 0.3s ease;
+        #toggleDarkMode input:checked ~ .toggle-container .light-mode-icon {
+            opacity: 0; /* 亮模式未选中时隐藏 */
+        }
+
+        #toggleDarkMode input:checked ~ .toggle-container .dark-mode-icon {
+            opacity: 1; /* 暗模式选中时显示 */
+        }
+
+        /* 背景颜色变化 */
+        #toggleDarkMode input:checked + .toggle-container {
+            background-color: #333; /* 暗模式背景 */
         }
 
         @media (max-width: 768px) {
@@ -360,17 +381,16 @@
             right: 5px;
         }
 
-        /* 年级标签样式（亮模式） */
         .grade-label {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 16px; /* 字体加大 */
+            font-size: 16px;
             font-weight: bold;
             color: #333;
-            padding: 4px 8px; /* 增加内边距 */
-            letter-spacing: 1px; /* 字间距加宽 */
+            padding: 4px 8px;
+            letter-spacing: 1px;
             transition: color 0.3s ease, text-shadow 0.3s ease;
         }
 
@@ -442,14 +462,13 @@
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
         }
 
-        /* 年级标签样式（暗模式） */
         .grade-label.dark-mode {
-            color: #fff; /* 颜色调整为白色，与暗模式协调 */
-            font-size: 16px; /* 与亮模式一致 */
-            font-weight: bold; /* 与亮模式一致 */
-            padding: 4px 8px; /* 与亮模式一致 */
-            letter-spacing: 1px; /* 与亮模式一致 */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* 暗模式下的阴影 */
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 4px 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         /* 黑暗模式下的科目渐变色 */
@@ -540,10 +559,14 @@
         <div class="results-container" id="resultsContainer">
             <p>请选择筛选条件，以查看相关思维导图。</p>
         </div>
+        <!-- 修改后的长圆角矩形切换按钮 -->
         <label id="toggleDarkMode">
             <input type="checkbox" id="darkModeCheckbox">
-            <span class="slider"></span>
-            <span class="toggle-background"></span>
+            <div class="toggle-container">
+                <span class="light-mode-icon">☀️</span>
+                <span class="divider"></span>
+                <span class="dark-mode-icon">🌙</span>
+            </div>
         </label>
     </div>
     <script>
@@ -775,6 +798,8 @@
             document.querySelectorAll('.result-card').forEach(card => card.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.semester-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.grade-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
+            // 更新切换按钮背景
+            toggleDarkModeLabel.style.backgroundColor = isDarkMode ? '#333' : '#f0f0f0';
         }
 
         gradeSelect.addEventListener('change', filterAndDisplayResults);
