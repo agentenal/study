@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>思维导图筛选器</title>
+    <title>小学初中学习笔记</title>
+    <link rel="icon" type="image/png" href="https://markmap.js.org/favicon.png" sizes="32x32">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* Light Theme */
@@ -36,6 +37,7 @@
             margin-bottom: 20px;
             border: 1px solid #ddd;
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            position: relative; /* 为切换按钮的定位提供参考 */
         }
 
         h1 {
@@ -189,15 +191,14 @@
             color: white;
         }
 
-        /* 新长圆角矩形切换按钮样式 */
         #toggleDarkMode {
             position: fixed;
             top: 10px;
             right: 10px;
-            width: 60px; /* 宽度大于高度，形成长矩形 */
-            height: 30px; /* 高度较小 */
-            background-color: #f0f0f0; /* 默认亮模式背景 */
-            border-radius: 20px; /* 圆角矩形 */
+            width: 60px;
+            height: 30px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
             cursor: pointer;
             z-index: 1000;
             display: flex;
@@ -221,7 +222,6 @@
             justify-content: space-between;
         }
 
-        /* 竖线隔断 */
         #toggleDarkMode .divider {
             position: absolute;
             left: 50%;
@@ -232,7 +232,6 @@
             transform: translateX(-50%);
         }
 
-        /* 左右图案 */
         #toggleDarkMode .light-mode-icon,
         #toggleDarkMode .dark-mode-icon {
             font-size: 24px;
@@ -245,33 +244,31 @@
         }
 
         #toggleDarkMode .light-mode-icon {
-            color: #f4c430; /* 太阳图标颜色 */
+            color: #f4c430;
         }
 
         #toggleDarkMode .dark-mode-icon {
-            color: #90caf9; /* 月亮图标颜色 */
+            color: #90caf9;
         }
 
-        /* 选中模式显示，未选中模式隐藏 */
         #toggleDarkMode input:not(:checked) ~ .toggle-container .light-mode-icon {
-            opacity: 1; /* 亮模式选中时显示 */
+            opacity: 1;
         }
 
         #toggleDarkMode input:not(:checked) ~ .toggle-container .dark-mode-icon {
-            opacity: 0; /* 暗模式未选中时隐藏 */
+            opacity: 0;
         }
 
         #toggleDarkMode input:checked ~ .toggle-container .light-mode-icon {
-            opacity: 0; /* 亮模式未选中时隐藏 */
+            opacity: 0;
         }
 
         #toggleDarkMode input:checked ~ .toggle-container .dark-mode-icon {
-            opacity: 1; /* 暗模式选中时显示 */
+            opacity: 1;
         }
 
-        /* 背景颜色变化 */
         #toggleDarkMode input:checked + .toggle-container {
-            background-color: #333; /* 暗模式背景 */
+            background-color: #333;
         }
 
         @media (max-width: 768px) {
@@ -559,7 +556,6 @@
         <div class="results-container" id="resultsContainer">
             <p>请选择筛选条件，以查看相关思维导图。</p>
         </div>
-        <!-- 修改后的长圆角矩形切换按钮 -->
         <label id="toggleDarkMode">
             <input type="checkbox" id="darkModeCheckbox">
             <div class="toggle-container">
@@ -603,6 +599,7 @@
         const resultCards = document.querySelectorAll('.result-card');
         const semesterLabels = document.querySelectorAll('.semester-label');
         const gradeLabels = document.querySelectorAll('.grade-label');
+        const logo = document.querySelector('.logo'); // 新增对 LOGO 的引用
 
         let isDarkMode = false;
 
@@ -798,7 +795,7 @@
             document.querySelectorAll('.result-card').forEach(card => card.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.semester-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
             document.querySelectorAll('.grade-label').forEach(label => label.classList.toggle('dark-mode', isDarkMode));
-            // 更新切换按钮背景
+            logo.classList.toggle('dark-mode', isDarkMode); // 新增对 LOGO 的暗模式切换
             toggleDarkModeLabel.style.backgroundColor = isDarkMode ? '#333' : '#f0f0f0';
         }
 
