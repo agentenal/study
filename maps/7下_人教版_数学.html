@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<style>
+/* 新增iOS数学符号修复 */
+@supports (-webkit-touch-callout: none) {
+    math {
+        font-family: "Apple Symbols", "Segoe UI Symbol", sans-serif;
+    }
+    msqrt, mroot {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+</style>
+<!-- 原有其他样式保持不变... -->
 <title>七年级下数学湘教版</title>
 <style>
 * {
